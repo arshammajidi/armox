@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>پرداخت مستقیم مایکت</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Tahoma, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at center, #0a0f1a, #030507);
+      color: #d8fff0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .card {
+      width: 100%;
+      max-width: 420px;
+      background: rgba(0, 255, 180, 0.08);
+      border: 1px solid rgba(0, 255, 200, 0.25);
+      border-radius: 28px;
+      padding: 28px;
+    }
+    h1 { margin: 0 0 8px; font-size: 1.4rem; }
+    p { opacity: 0.85; font-size: 0.92rem; }
+    label { display: block; margin: 14px 0 6px; font-size: 0.85rem; }
+    input, textarea {
+      width: 100%;
+      border-radius: 12px;
+      border: 1px solid rgba(0,255,200,.3);
+      background: #0006;
+      color: inherit;
+      padding: 10px 12px;
+      font-family: inherit;
+    }
+    button {
+      margin-top: 18px;
+      width: 100%;
+      border: 0;
+      border-radius: 14px;
+      padding: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      background: #1affc2;
+      color: #042018;
+    }
+    .err { color: #ffb4b4; min-height: 1.2em; margin-top: 10px; }
+    a { color: #7fffd4; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>پرداخت مستقیم مایکت</h1>
+    <p>sku محصول را بزنید. سرور آدرس خرید را از مایکت می‌گیرد و مرورگر شما را به صفحه پرداخت هدایت می‌کند.</p>
+    <form id="f">
+      <label>SKU محصول</label>
+      <input name="skuId" placeholder="GEM2" required />
+      <label>developerPayload (اختیاری)</label>
+      <textarea name="developerPayload" rows="3" placeholder='{"userId":1}'></textarea>
+      <button type="submit">شروع خرید</button>
+      <div class="err" id="err"></div>
+    </form>
+    <p><a href="/">صفحه اصلی</a></p>
+  </div>
+  <script>
+    const form = document.getElementById("f");
+    const err = document.getElementById("err");
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      err.textContent = "";
+      const skuId = form.skuId.value.trim();
+      const developerPayload = form.developerPayload.value.trim();
+      try {
+        const res = await fetch("/api/myket/start", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ skuId, developerPayload: developerPayload || undefined }),
+        });
+        const data = await res.json();
+        if (!res.ok || !data.url) {
+          err.textContent = data.error || "خطا در شروع خرید";
+          return;
+        }
+        window.location.href = data.url;
+      } catch (ex) {
+        err.textContent = ex.message || "خطای شبکه";
+      }
+    });
+  </script>
+</body>
+</html>

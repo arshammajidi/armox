@@ -31,9 +31,27 @@ public class MainActivity extends AppCompatActivity {
         settings.setLoadWithOverviewMode(true);
         settings.setUseWideViewPort(true);
 
-        webView.setWebViewClient(new WebViewClient());
+        settings.setDatabaseEnabled(true);
+        settings.setLoadsImagesAutomatically(true);
+        settings.setAllowContentAccess(true);
+        settings.setAllowFileAccessFromFileURLs(true);
+        settings.setAllowUniversalAccessFromFileURLs(true);
+        settings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+        settings.setBlockNetworkImage(false);
+        settings.setUserAgentString(
+            "Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36"
+        );
+        webView.setLayerType(android.view.View.LAYER_TYPE_HARDWARE, null);
+        webView.setWebViewClient(new WebViewClient() {
+            @Override
+            public void onReceivedError(WebView view, android.webkit.WebResourceRequest req, android.webkit.WebResourceError err) {
+                if (req.isForMainFrame()) {
+                    view.loadUrl("file:///android_asset/index.html");
+                }
+            }
+        });
         webView.setWebChromeClient(new WebChromeClient());
-        webView.loadUrl("file:///android_asset/index.html");
+        webView.loadUrl("https://arshammajidi.github.io/armox/");
     }
 
     @Override

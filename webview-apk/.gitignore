@@ -1,0 +1,6 @@
+# خروجی‌های بیلد و کلیدهای امضا
+build/
+*.keystore
+*.jks
+local.properties
+__pycache__/

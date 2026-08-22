@@ -1,0 +1,54 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace '{{PACKAGE_ID}}'
+    compileSdk {{COMPILE_SDK}}
+
+    defaultConfig {
+        applicationId "{{PACKAGE_ID}}"
+        minSdk {{MIN_SDK}}
+        targetSdk {{TARGET_SDK}}
+        versionCode {{VERSION_CODE}}
+        versionName "{{VERSION_NAME}}"
+        resourceConfigurations += ["fa", "en"]
+    }
+
+{{SIGNING_BLOCK}}
+
+    buildTypes {
+        release {
+            minifyEnabled {{MINIFY}}
+            shrinkResources {{MINIFY}}
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+{{SIGNING_USE}}
+        }
+        debug {
+            applicationIdSuffix ""
+            minifyEnabled false
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    buildFeatures {
+        buildConfig true
+    }
+
+    packagingOptions {
+        resources.excludes += ['META-INF/*.version', 'DebugProbesKt.bin']
+    }
+}
+
+dependencies {
+    implementation 'androidx.appcompat:appcompat:1.7.0'
+    implementation 'androidx.core:core:1.15.0'
+    implementation 'androidx.webkit:webkit:1.12.1'
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+    implementation 'androidx.browser:browser:1.8.0'
+    implementation 'androidx.core:core-splashscreen:1.0.1'
+}

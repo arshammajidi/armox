@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">{{APP_NAME}}</string>
+    <string name="offline_message">{{OFFLINE_MESSAGE}}</string>
+    <string name="offline_button">{{OFFLINE_BUTTON}}</string>
+    <string name="exit_confirm">{{EXIT_CONFIRM_TEXT}}</string>
+    <string name="notif_channel">{{APP_NAME}}</string>
+</resources>

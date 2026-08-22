@@ -1,0 +1,107 @@
+{
+  "app": {
+    "name": "آروکس",
+    "package_id": "com.armox.app",
+    "version_name": "1.0.0",
+    "version_code": 1,
+    "icon": "",
+    "splash_logo": ""
+  },
+
+  "content": {
+    "mode": "local",
+    "local_web_dir": "../",
+    "start_url": "https://example.com",
+    "allowed_hosts": ["example.com", "www.example.com"],
+    "offline_message": "اتصال اینترنت برقرار نیست",
+    "offline_button": "تلاش دوباره"
+  },
+
+  "fullscreen": {
+    "enabled": true,
+    "hide_status_bar": true,
+    "hide_navigation_bar": true,
+    "edge_to_edge": true,
+    "orientation": "portrait",
+    "keep_screen_on": false
+  },
+
+  "theme": {
+    "primary_color": "#0b0b0d",
+    "background_color": "#0b0b0d",
+    "status_bar_color": "#0b0b0d",
+    "navigation_bar_color": "#0b0b0d",
+    "splash_background": "#0b0b0d",
+    "light_status_bar_icons": false,
+    "dark_mode": "system"
+  },
+
+  "webview": {
+    "javascript": true,
+    "dom_storage": true,
+    "database": true,
+    "zoom": false,
+    "text_zoom": 100,
+    "user_agent_suffix": "ArmoxApp/1.0",
+    "desktop_mode": false,
+    "cache_mode": "default",
+    "allow_mixed_content": false,
+    "third_party_cookies": true,
+    "media_autoplay": true,
+    "safe_browsing": true,
+    "long_press_menu": false,
+    "pull_to_refresh": true,
+    "open_external_links_in_browser": true,
+    "file_upload": true,
+    "downloads": true,
+    "geolocation": false,
+    "camera_microphone": false,
+    "debug_webview": false
+  },
+
+  "features": {
+    "js_bridge": true,
+    "bridge_name": "Armox",
+    "offline_page": true,
+    "splash_screen": true,
+    "splash_duration_ms": 700,
+    "back_navigates_history": true,
+    "exit_confirm": true,
+    "exit_confirm_text": "برای خروج دوباره بازگشت را بزنید",
+    "local_notifications": true,
+    "shake_to_reload": false,
+    "deep_link_hosts": []
+  },
+
+  "permissions": {
+    "internet": true,
+    "notifications": true,
+    "vibrate": true,
+    "camera": false,
+    "microphone": false,
+    "location": false,
+    "downloads": true
+  },
+
+  "sdk": {
+    "min_sdk": 24,
+    "target_sdk": 35,
+    "compile_sdk": 35
+  },
+
+  "signing": {
+    "enabled": false,
+    "keystore_path": "release.keystore",
+    "keystore_password": "CHANGE_ME",
+    "key_alias": "armox",
+    "key_password": "CHANGE_ME",
+    "dname": "CN=Armox, OU=Dev, O=Armox, L=Tehran, S=Tehran, C=IR"
+  },
+
+  "build": {
+    "project_dir": "build/android-project",
+    "output_dir": "build/out",
+    "format": "apk",
+    "minify": true
+  }
+}

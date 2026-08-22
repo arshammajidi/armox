@@ -36,6 +36,16 @@ app.get("/health", (_req, res) => {
   res.json({ ok: true, configured: isConfigured() });
 });
 
+app.get(["/armox.apk", "/download/armox.apk"], (_req, res) => {
+  const apk = path.join(__dirname, "armox.apk");
+  if (!fs.existsSync(apk)) {
+    return res.status(404).send("APK not found");
+  }
+  res.setHeader("Content-Type", "application/vnd.android.package-archive");
+  res.setHeader("Content-Disposition", 'attachment; filename="armox.apk"');
+  res.sendFile(apk);
+});
+
 /**
  * مرحله ۱: دریافت آدرس شروع خرید (Server-to-Server به مایکت)
  */

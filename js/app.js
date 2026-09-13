@@ -2070,15 +2070,17 @@ const into = state.xp - base;
 const span = STEP;
 const pct = lv >= MAX ? 100 : (into / span) * 100;
 setGauge(pct);
-document.getElementById("xpCount").textContent = toFa(state.xp);
-document.getElementById("orbImg").src = LEVELS[lv-1].src;
-document.getElementById("lvlTitle").textContent = "سطح " + toFa(lv);
-document.getElementById("lvlSub").textContent = lv >= MAX
+var el;
+el = document.getElementById("xpCount"); if(el) el.textContent = toFa(state.xp);
+el = document.getElementById("orbImg"); if(el && LEVELS[lv-1]) el.src = LEVELS[lv-1].src;
+el = document.getElementById("lvlTitle"); if(el) el.textContent = "سطح " + toFa(lv);
+el = document.getElementById("lvlSub"); if(el) el.textContent = lv >= MAX
 ? "آخرین سطح را گرفتی"
 : toFa(into) + " / " + toFa(STEP) + " XP تا سطح " + toFa(lv+1);
-const empty = document.getElementById("empty");
-const list = document.getElementById("list");
-empty.style.display = state.goals.length ? "none" : "block";
+var empty = document.getElementById("empty");
+var list = document.getElementById("list");
+if(empty) empty.style.display = state.goals.length ? "none" : "block";
+if(list){
 const sorted = [...state.goals].sort((a,b)=> Number(a.done)-Number(b.done) || b.createdAt-a.createdAt);
 list.innerHTML = sorted.map(g => `
 <article class="card ${g.done ? "done" : ""}" data-id="${g.id}">
@@ -2086,6 +2088,7 @@ list.innerHTML = sorted.map(g => `
 <p>${esc(g.text)}</p>
 <button class="check press" aria-label="انجام شد"><i>${g.done ? '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>' : ""}</i></button>
 </article>`).join("");
+}
 }
 if (document.getElementById("page-rank").classList.contains("active")) renderRank();
 function renderAlbum(){
@@ -2103,7 +2106,7 @@ return `<button class="tile press ${open?"":"locked"}" data-n="${n}">
 function esc(s){
 return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 }
-document.getElementById("list").addEventListener("click", e => {
+var _listEl = document.getElementById("list"); if(_listEl) _listEl.addEventListener("click", e => {
 const btn = e.target.closest(".check");
 if (!btn) return;
 const id = btn.closest(".card").dataset.id;
@@ -2115,7 +2118,7 @@ persist();
 paint();
 maybeClaim();
 });
-document.getElementById("album").addEventListener("click", e => {
+var _albumEl = document.getElementById("album"); if(_albumEl) _albumEl.addEventListener("click", e => {
 const tile = e.target.closest(".tile");
 if (!tile) return;
 const n = +tile.dataset.n;
@@ -2130,7 +2133,7 @@ return;
 }
 toast("برای باز شدن سطح " + toFa(n) + " به " + toFa(needFor(n)) + " XP نیاز داری. الان " + toFa(state.xp) + " XP داری.");
 });
-document.getElementById("orb").addEventListener("click", () => goPage("book"));
+var _orbEl = document.getElementById("orb"); if(_orbEl) _orbEl.addEventListener("click", () => goPage("book"));
 let emoji = "🎯";
 const emojisEl = document.getElementById("emojis");
 const uniq = Array.from(new Set(Array.from(EMOJIS)));
@@ -2144,10 +2147,10 @@ emojisEl.querySelectorAll("b").forEach(x => x.classList.toggle("on", x === b));
 const overlay = document.getElementById("overlay");
 const input = document.getElementById("goalText");
 const saveBtn = document.getElementById("saveGoal");
-document.getElementById("openSheet").onclick = () => { overlay.classList.add("on"); input.focus(); };
+var _openSheet = document.getElementById("openSheet"); if(_openSheet) _openSheet.onclick = () => { overlay.classList.add("on"); input.focus(); };
 const close = () => overlay.classList.remove("on");
-document.getElementById("closeSheet").onclick = close;
-document.getElementById("closeSheet2").onclick = close;
+var _closeSheet = document.getElementById("closeSheet"); if(_closeSheet) _closeSheet.onclick = close;
+var _closeSheet2 = document.getElementById("closeSheet2"); if(_closeSheet2) _closeSheet2.onclick = close;
 input.addEventListener("input", () => saveBtn.disabled = !input.value.trim());
 input.addEventListener("keydown", e => { if (e.key === "Enter") addGoal(); });
 function addGoal(){
@@ -2304,7 +2307,8 @@ el.value = v;
 return v;
 }
 function readFocusSecs(){
-const h = clampNum(document.getElementById("pH"), 0, 23);
+var _pH=document.getElementById("pH"); if(!_pH) return 1500;
+const h = clampNum(_pH, 0, 23);
 const m = clampNum(document.getElementById("pM"), 0, 59);
 const s = clampNum(document.getElementById("pS"), 0, 59);
 return h*3600 + m*60 + s;
@@ -2325,17 +2329,17 @@ const p = n => toFa(String(n).padStart(2,"0"));
 return p(h)+":"+p(m)+":"+p(s);
 }
 function renderClock(){
-const clock = document.getElementById("pomoClock");
+const clock = document.getElementById("pomoClock"); if(!clock) return;
 clock.innerHTML = fmtHMS(pomo.left) + "<small>ساعت : دقیقه : ثانیه</small>";
 }
 function setPomoMode(text, cls){
-document.getElementById("pomoMode").textContent = text;
+var _pm=document.getElementById("pomoMode"); if(!_pm) return; _pm.textContent = text;
 const c = document.getElementById("pomoCircle");
 c.classList.toggle("running", pomo.running);
 c.classList.toggle("break", pomo.mode === "break");
 }
 function setPlayIcon(pause){
-const ic = document.getElementById("pomoIcon");
+const ic = document.getElementById("pomoIcon"); if(!ic) return;
 ic.innerHTML = pause
 ? '<rect x="6" y="5" width="4.2" height="14" rx="1"></rect><rect x="13.8" y="5" width="4.2" height="14" rx="1"></rect>'
 : '<path d="M8 5.5v13l11-6.5z"/>';
@@ -2451,7 +2455,7 @@ renderClock();
 clearInterval(pomo.tick);
 pomo.tick = setInterval(tickPomo, 1000);
 }
-document.getElementById("pomoPlay").addEventListener("click", togglePomo);
+var _tmp = document.getElementById("pomoPlay"); if(_tmp) var _pomoPlay=document.getElementById("pomoPlay"); if(_pomoPlay) _pomoPlay.addEventListener("click", togglePomo);
 function applyNewFocus(){
 const total = readFocusSecs();
 if (total <= 0){ toast("اول زمان تمرکز را تنظیم کن"); return; }
@@ -2468,7 +2472,7 @@ setPomoMode("زمان جدید تأیید شد — برای شروع پخش را
 renderClock();
 toast("زمان جدید از اول آماده است");
 }
-document.getElementById("pomoApply").addEventListener("click", applyNewFocus);
+var _tmp = document.getElementById("pomoApply"); if(_tmp) var _pomoApply=document.getElementById("pomoApply"); if(_pomoApply) _pomoApply.addEventListener("click", applyNewFocus);
 function setBreakWant(yes){
 document.getElementById("breakYes").classList.toggle("on", yes);
 document.getElementById("breakNo").classList.toggle("on", !yes);
@@ -2476,8 +2480,8 @@ document.getElementById("breakFields").classList.toggle("on", yes);
 pomo.breakEvery = readBreakEvery();
 pomo.breakDur = readBreakDur();
 }
-document.getElementById("breakYes").addEventListener("click", () => setBreakWant(true));
-document.getElementById("breakNo").addEventListener("click", () => setBreakWant(false));
+var _tmp = document.getElementById("breakYes"); if(_tmp) var _breakYes=document.getElementById("breakYes"); if(_breakYes) _breakYes.addEventListener("click", () => setBreakWant(true));
+var _tmp = document.getElementById("breakNo"); if(_tmp) var _breakNo=document.getElementById("breakNo"); if(_breakNo) _breakNo.addEventListener("click", () => setBreakWant(false));
 pomo.left = readFocusSecs();
 renderClock();
 setInterval(() => { dailyReset(); paint(); }, 60 * 1000);
